@@ -1,36 +1,57 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.7.0 <0.9.0;
 
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol";
 
-contract TDCNFT is ERC721Enumerable, Ownable {
-  using Strings for uint256;
+contract TDCNFT is  
+  ERC721EnumerableUpgradeable, 
+  OwnableUpgradeable, 
+  ReentrancyGuardUpgradeable, 
+  UUPSUpgradeable{
+  using StringsUpgradeable for uint256;
 
   string baseURI;
   string public baseExtension = ".json";
   uint256 public maxSupply = 20;
   uint256 public maxMintAmount = 3;
+  uint256 public price = 20000000000000000;
   bool public paused = false;
   bool public whitelisted = true;
   address[] public whitelistedUsers;
 
-  constructor(
-    string memory _initBaseURI
-  ) ERC721("Thirsty Dogs Club", "TDC") {
-    setBaseURI(_initBaseURI);
+  function initialize() public initializer{
+    __ERC721_init("Thirsty Dogs Club", "TDC");
+    __ERC721Enumerable_init();
+    __Ownable_init();
+    __UUPSUpgradeable_init();
+    __ReentrancyGuard_init();
   }
+
+  // constructor(
+  //   string memory _initBaseURI,
+  //   address[] memory whiteUsers
+  // ) ERC721("Thirsty Dogs Club", "TDC") {
+
+  //   setBaseURI(_initBaseURI);
+  //   whitelistedUsers = whiteUsers;
+
+  // }
 
   function _baseURI() internal view virtual override returns (string memory) {
     return baseURI;
   }
 
-  function mint(uint256 _mintAmount) public payable {
+  function mint(uint256 _mintAmount) public payable nonReentrant{
     uint256 supply = totalSupply();
     require(!paused);
     require(_mintAmount > 0);
     require(_mintAmount <= maxMintAmount);
     require(supply + _mintAmount <= maxSupply);
+    require(price <= msg.value, "Insufficient funds");
     if(whitelisted == true){
       require(isWhitelisted(msg.sender), "User is not whitelisted");
     }
@@ -41,7 +62,7 @@ contract TDCNFT is ERC721Enumerable, Ownable {
     }
   }
 
-  function isWhitelisted(address _user) public returns(bool){
+  function isWhitelisted(address _user) public view returns(bool){
     for(uint256 i = 0; i < whitelistedUsers.length; i++){
       if(whitelistedUsers[i] == _user){
         return true;
@@ -82,6 +103,14 @@ contract TDCNFT is ERC721Enumerable, Ownable {
         : "";
   }
 
+  function getTokenPrice() public view returns(uint256) {
+    return price;
+  }
+
+  function setTokenPrice(uint256 _price) public onlyOwner {
+    price = _price;
+  }
+
   function createWhitelist(address[] calldata _users) public onlyOwner{
     delete whitelistedUsers;
     whitelistedUsers = _users;
@@ -107,12 +136,14 @@ contract TDCNFT is ERC721Enumerable, Ownable {
     paused = _state;
   }
  
-//   function withdraw() public payable onlyOwner {
-//     // This will payout the owner 100% of the contract balance.
-//     // Do not remove this otherwise you will not be able to withdraw the funds.
-//     // =============================================================================
-//     (bool os, ) = payable(owner()).call{value: address(this).balance}("");
-//     require(os);
-//     // =============================================================================
-//   }
+  function withdraw() public payable onlyOwner {
+    (bool os, ) = payable(owner()).call{value: address(this).balance}("");
+    require(os);
+  }
+
+  function _authorizeUpgrade(address newImplementation)
+        internal
+        onlyOwner
+        override
+    {}
 }

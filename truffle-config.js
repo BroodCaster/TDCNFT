@@ -10,9 +10,9 @@ module.exports = {
      port: 8545,            // Standard Ethereum port (default: none)
      network_id: "*",       // Any network (default: none)
     },
-    rinkeby: {
-      provider: () => new HDWalletProvider(mnemonic, `https://rinkeby.infura.io/v3/7ad96ad726c84dd28db9b7428e1e2be5`),
-      network_id: 4,       
+    goerli: {
+      provider: () => new HDWalletProvider(mnemonic, `https://goerli.infura.io/v3/7ad96ad726c84dd28db9b7428e1e2be5`),
+      network_id: 5,       
       gas: 5500000,          
       timeoutBlocks: 200,  
       skipDryRun: true    
@@ -25,17 +25,22 @@ module.exports = {
     // },
   },
   // Configure your compilers
+ 
   compilers: {
-    solc: {
-      version: "0.8.11",    // Fetch exact version from solc-bin (default: truffle's version)
-      docker: false,        // Use "0.5.1" you've installed locally with docker (default: false)
-      settings: {          // See the solidity docs for advice about optimization and evmVersion
-       optimizer: {
-         enabled: true,
-         runs: 200
-       },
+      solc: {
+        version: "^0.8.0",    // Fetch exact version from solc-bin (default: truffle's version)
+        docker: false,        // Use "0.5.1" you've installed locally with docker (default: false)
+        settings: {          // See the solidity docs for advice about optimization and evmVersion
+        optimizer: {
+          enabled: true,
+          runs: 200
+        },
+        }
       }
-    }
   },
+  plugins: ['truffle-plugin-verify'],
+  api_keys: {
+    etherscan: 'FE4B7IDD87JA85Q3MYW73WRFUWD2NYT21C'
+  }
 };
 

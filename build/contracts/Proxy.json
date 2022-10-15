@@ -1,0 +1,1615 @@
+{
+  "contractName": "Proxy",
+  "abi": [
+    {
+      "stateMutability": "payable",
+      "type": "fallback"
+    },
+    {
+      "stateMutability": "payable",
+      "type": "receive"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"stateMutability\":\"payable\",\"type\":\"fallback\"},{\"stateMutability\":\"payable\",\"type\":\"receive\"}],\"devdoc\":{\"details\":\"This abstract contract provides a fallback function that delegates all calls to another contract using the EVM instruction `delegatecall`. We refer to the second contract as the _implementation_ behind the proxy, and it has to be specified by overriding the virtual {_implementation} function. Additionally, delegation to the implementation can be triggered manually through the {_fallback} function, or to a different contract through the {_delegate} function. The success and return data of the delegated call will be returned back to the caller of the proxy.\",\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/proxy/Proxy.sol\":\"Proxy\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/proxy/Proxy.sol\":{\"keccak256\":\"0x62c6b919abeeb4c9146ffbb325fc03b5f2d55a29b8e719b8ff62daab48123565\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://296143200e46ef2d62d089f9e7be424ebd49c37ab44c7ac24da3c2c89a0226d5\",\"dweb:/ipfs/Qmd3g6y6MU3Udk2z7onjyVdifjTANp7CvFYkJNGGQBDBvB\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: MIT\r\n// OpenZeppelin Contracts (last updated v4.6.0) (proxy/Proxy.sol)\r\n\r\npragma solidity ^0.8.0;\r\n\r\n/**\r\n * @dev This abstract contract provides a fallback function that delegates all calls to another contract using the EVM\r\n * instruction `delegatecall`. We refer to the second contract as the _implementation_ behind the proxy, and it has to\r\n * be specified by overriding the virtual {_implementation} function.\r\n *\r\n * Additionally, delegation to the implementation can be triggered manually through the {_fallback} function, or to a\r\n * different contract through the {_delegate} function.\r\n *\r\n * The success and return data of the delegated call will be returned back to the caller of the proxy.\r\n */\r\nabstract contract Proxy {\r\n    /**\r\n     * @dev Delegates the current call to `implementation`.\r\n     *\r\n     * This function does not return to its internal call site, it will return directly to the external caller.\r\n     */\r\n    function _delegate(address implementation) internal virtual {\r\n        assembly {\r\n            // Copy msg.data. We take full control of memory in this inline assembly\r\n            // block because it will not return to Solidity code. We overwrite the\r\n            // Solidity scratch pad at memory position 0.\r\n            calldatacopy(0, 0, calldatasize())\r\n\r\n            // Call the implementation.\r\n            // out and outsize are 0 because we don't know the size yet.\r\n            let result := delegatecall(gas(), implementation, 0, calldatasize(), 0, 0)\r\n\r\n            // Copy the returned data.\r\n            returndatacopy(0, 0, returndatasize())\r\n\r\n            switch result\r\n            // delegatecall returns 0 on error.\r\n            case 0 {\r\n                revert(0, returndatasize())\r\n            }\r\n            default {\r\n                return(0, returndatasize())\r\n            }\r\n        }\r\n    }\r\n\r\n    /**\r\n     * @dev This is a virtual function that should be overridden so it returns the address to which the fallback function\r\n     * and {_fallback} should delegate.\r\n     */\r\n    function _implementation() internal view virtual returns (address);\r\n\r\n    /**\r\n     * @dev Delegates the current call to the address returned by `_implementation()`.\r\n     *\r\n     * This function does not return to its internal call site, it will return directly to the external caller.\r\n     */\r\n    function _fallback() internal virtual {\r\n        _beforeFallback();\r\n        _delegate(_implementation());\r\n    }\r\n\r\n    /**\r\n     * @dev Fallback function that delegates calls to the address returned by `_implementation()`. Will run if no other\r\n     * function in the contract matches the call data.\r\n     */\r\n    fallback() external payable virtual {\r\n        _fallback();\r\n    }\r\n\r\n    /**\r\n     * @dev Fallback function that delegates calls to the address returned by `_implementation()`. Will run if call data\r\n     * is empty.\r\n     */\r\n    receive() external payable virtual {\r\n        _fallback();\r\n    }\r\n\r\n    /**\r\n     * @dev Hook that is called before falling back to the implementation. Can happen as part of a manual `_fallback`\r\n     * call, or as part of the Solidity `fallback` or `receive` functions.\r\n     *\r\n     * If overridden should call `super._beforeFallback()`.\r\n     */\r\n    function _beforeFallback() internal virtual {}\r\n}\r\n",
+  "sourcePath": "D:\\work\\eth\\cinema-nft\\contracts\\proxy\\Proxy.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/proxy/Proxy.sol",
+    "exportedSymbols": {
+      "Proxy": [
+        4724
+      ]
+    },
+    "id": 4725,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 4674,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "102:23:35"
+      },
+      {
+        "abstract": true,
+        "baseContracts": [],
+        "canonicalName": "Proxy",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": {
+          "id": 4675,
+          "nodeType": "StructuredDocumentation",
+          "src": "129:607:35",
+          "text": " @dev This abstract contract provides a fallback function that delegates all calls to another contract using the EVM\n instruction `delegatecall`. We refer to the second contract as the _implementation_ behind the proxy, and it has to\n be specified by overriding the virtual {_implementation} function.\n Additionally, delegation to the implementation can be triggered manually through the {_fallback} function, or to a\n different contract through the {_delegate} function.\n The success and return data of the delegated call will be returned back to the caller of the proxy."
+        },
+        "fullyImplemented": false,
+        "id": 4724,
+        "linearizedBaseContracts": [
+          4724
+        ],
+        "name": "Proxy",
+        "nameLocation": "756:5:35",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 4682,
+              "nodeType": "Block",
+              "src": "1029:858:35",
+              "statements": [
+                {
+                  "AST": {
+                    "nodeType": "YulBlock",
+                    "src": "1049:831:35",
+                    "statements": [
+                      {
+                        "expression": {
+                          "arguments": [
+                            {
+                              "kind": "number",
+                              "nodeType": "YulLiteral",
+                              "src": "1306:1:35",
+                              "type": "",
+                              "value": "0"
+                            },
+                            {
+                              "kind": "number",
+                              "nodeType": "YulLiteral",
+                              "src": "1309:1:35",
+                              "type": "",
+                              "value": "0"
+                            },
+                            {
+                              "arguments": [],
+                              "functionName": {
+                                "name": "calldatasize",
+                                "nodeType": "YulIdentifier",
+                                "src": "1312:12:35"
+                              },
+                              "nodeType": "YulFunctionCall",
+                              "src": "1312:14:35"
+                            }
+                          ],
+                          "functionName": {
+                            "name": "calldatacopy",
+                            "nodeType": "YulIdentifier",
+                            "src": "1293:12:35"
+                          },
+                          "nodeType": "YulFunctionCall",
+                          "src": "1293:34:35"
+                        },
+                        "nodeType": "YulExpressionStatement",
+                        "src": "1293:34:35"
+                      },
+                      {
+                        "nodeType": "YulVariableDeclaration",
+                        "src": "1458:74:35",
+                        "value": {
+                          "arguments": [
+                            {
+                              "arguments": [],
+                              "functionName": {
+                                "name": "gas",
+                                "nodeType": "YulIdentifier",
+                                "src": "1485:3:35"
+                              },
+                              "nodeType": "YulFunctionCall",
+                              "src": "1485:5:35"
+                            },
+                            {
+                              "name": "implementation",
+                              "nodeType": "YulIdentifier",
+                              "src": "1492:14:35"
+                            },
+                            {
+                              "kind": "number",
+                              "nodeType": "YulLiteral",
+                              "src": "1508:1:35",
+                              "type": "",
+                              "value": "0"
+                            },
+                            {
+                              "arguments": [],
+                              "functionName": {
+                                "name": "calldatasize",
+                                "nodeType": "YulIdentifier",
+                                "src": "1511:12:35"
+                              },
+                              "nodeType": "YulFunctionCall",
+                              "src": "1511:14:35"
+                            },
+                            {
+                              "kind": "number",
+                              "nodeType": "YulLiteral",
+                              "src": "1527:1:35",
+                              "type": "",
+                              "value": "0"
+                            },
+                            {
+                              "kind": "number",
+                              "nodeType": "YulLiteral",
+                              "src": "1530:1:35",
+                              "type": "",
+                              "value": "0"
+                            }
+                          ],
+                          "functionName": {
+                            "name": "delegatecall",
+                            "nodeType": "YulIdentifier",
+                            "src": "1472:12:35"
+                          },
+                          "nodeType": "YulFunctionCall",
+                          "src": "1472:60:35"
+                        },
+                        "variables": [
+                          {
+                            "name": "result",
+                            "nodeType": "YulTypedName",
+                            "src": "1462:6:35",
+                            "type": ""
+                          }
+                        ]
+                      },
+                      {
+                        "expression": {
+                          "arguments": [
+                            {
+                              "kind": "number",
+                              "nodeType": "YulLiteral",
+                              "src": "1603:1:35",
+                              "type": "",
+                              "value": "0"
+                            },
+                            {
+                              "kind": "number",
+                              "nodeType": "YulLiteral",
+                              "src": "1606:1:35",
+                              "type": "",
+                              "value": "0"
+                            },
+                            {
+                              "arguments": [],
+                              "functionName": {
+                                "name": "returndatasize",
+                                "nodeType": "YulIdentifier",
+                                "src": "1609:14:35"
+                              },
+                              "nodeType": "YulFunctionCall",
+                              "src": "1609:16:35"
+                            }
+                          ],
+                          "functionName": {
+                            "name": "returndatacopy",
+                            "nodeType": "YulIdentifier",
+                            "src": "1588:14:35"
+                          },
+                          "nodeType": "YulFunctionCall",
+                          "src": "1588:38:35"
+                        },
+                        "nodeType": "YulExpressionStatement",
+                        "src": "1588:38:35"
+                      },
+                      {
+                        "cases": [
+                          {
+                            "body": {
+                              "nodeType": "YulBlock",
+                              "src": "1725:61:35",
+                              "statements": [
+                                {
+                                  "expression": {
+                                    "arguments": [
+                                      {
+                                        "kind": "number",
+                                        "nodeType": "YulLiteral",
+                                        "src": "1751:1:35",
+                                        "type": "",
+                                        "value": "0"
+                                      },
+                                      {
+                                        "arguments": [],
+                                        "functionName": {
+                                          "name": "returndatasize",
+                                          "nodeType": "YulIdentifier",
+                                          "src": "1754:14:35"
+                                        },
+                                        "nodeType": "YulFunctionCall",
+                                        "src": "1754:16:35"
+                                      }
+                                    ],
+                                    "functionName": {
+                                      "name": "revert",
+                                      "nodeType": "YulIdentifier",
+                                      "src": "1744:6:35"
+                                    },
+                                    "nodeType": "YulFunctionCall",
+                                    "src": "1744:27:35"
+                                  },
+                                  "nodeType": "YulExpressionStatement",
+                                  "src": "1744:27:35"
+                                }
+                              ]
+                            },
+                            "nodeType": "YulCase",
+                            "src": "1718:68:35",
+                            "value": {
+                              "kind": "number",
+                              "nodeType": "YulLiteral",
+                              "src": "1723:1:35",
+                              "type": "",
+                              "value": "0"
+                            }
+                          },
+                          {
+                            "body": {
+                              "nodeType": "YulBlock",
+                              "src": "1808:61:35",
+                              "statements": [
+                                {
+                                  "expression": {
+                                    "arguments": [
+                                      {
+                                        "kind": "number",
+                                        "nodeType": "YulLiteral",
+                                        "src": "1834:1:35",
+                                        "type": "",
+                                        "value": "0"
+                                      },
+                                      {
+                                        "arguments": [],
+                                        "functionName": {
+                                          "name": "returndatasize",
+                                          "nodeType": "YulIdentifier",
+                                          "src": "1837:14:35"
+                                        },
+                                        "nodeType": "YulFunctionCall",
+                                        "src": "1837:16:35"
+                                      }
+                                    ],
+                                    "functionName": {
+                                      "name": "return",
+                                      "nodeType": "YulIdentifier",
+                                      "src": "1827:6:35"
+                                    },
+                                    "nodeType": "YulFunctionCall",
+                                    "src": "1827:27:35"
+                                  },
+                                  "nodeType": "YulExpressionStatement",
+                                  "src": "1827:27:35"
+                                }
+                              ]
+                            },
+                            "nodeType": "YulCase",
+                            "src": "1800:69:35",
+                            "value": "default"
+                          }
+                        ],
+                        "expression": {
+                          "name": "result",
+                          "nodeType": "YulIdentifier",
+                          "src": "1649:6:35"
+                        },
+                        "nodeType": "YulSwitch",
+                        "src": "1642:227:35"
+                      }
+                    ]
+                  },
+                  "evmVersion": "london",
+                  "externalReferences": [
+                    {
+                      "declaration": 4678,
+                      "isOffset": false,
+                      "isSlot": false,
+                      "src": "1492:14:35",
+                      "valueSize": 1
+                    }
+                  ],
+                  "id": 4681,
+                  "nodeType": "InlineAssembly",
+                  "src": "1040:840:35"
+                }
+              ]
+            },
+            "documentation": {
+              "id": 4676,
+              "nodeType": "StructuredDocumentation",
+              "src": "769:194:35",
+              "text": " @dev Delegates the current call to `implementation`.\n This function does not return to its internal call site, it will return directly to the external caller."
+            },
+            "id": 4683,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "_delegate",
+            "nameLocation": "978:9:35",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4679,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4678,
+                  "mutability": "mutable",
+                  "name": "implementation",
+                  "nameLocation": "996:14:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4683,
+                  "src": "988:22:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4677,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "988:7:35",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "987:24:35"
+            },
+            "returnParameters": {
+              "id": 4680,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1029:0:35"
+            },
+            "scope": 4724,
+            "src": "969:918:35",
+            "stateMutability": "nonpayable",
+            "virtual": true,
+            "visibility": "internal"
+          },
+          {
+            "documentation": {
+              "id": 4684,
+              "nodeType": "StructuredDocumentation",
+              "src": "1895:176:35",
+              "text": " @dev This is a virtual function that should be overridden so it returns the address to which the fallback function\n and {_fallback} should delegate."
+            },
+            "id": 4689,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "_implementation",
+            "nameLocation": "2086:15:35",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4685,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2101:2:35"
+            },
+            "returnParameters": {
+              "id": 4688,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4687,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4689,
+                  "src": "2135:7:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4686,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2135:7:35",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2134:9:35"
+            },
+            "scope": 4724,
+            "src": "2077:67:35",
+            "stateMutability": "view",
+            "virtual": true,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 4701,
+              "nodeType": "Block",
+              "src": "2417:75:35",
+              "statements": [
+                {
+                  "expression": {
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "id": 4693,
+                      "name": "_beforeFallback",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4723,
+                      "src": "2428:15:35",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$__$returns$__$",
+                        "typeString": "function ()"
+                      }
+                    },
+                    "id": 4694,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "2428:17:35",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 4695,
+                  "nodeType": "ExpressionStatement",
+                  "src": "2428:17:35"
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "arguments": [],
+                        "expression": {
+                          "argumentTypes": [],
+                          "id": 4697,
+                          "name": "_implementation",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 4689,
+                          "src": "2466:15:35",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_function_internal_view$__$returns$_t_address_$",
+                            "typeString": "function () view returns (address)"
+                          }
+                        },
+                        "id": 4698,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "functionCall",
+                        "lValueRequested": false,
+                        "nameLocations": [],
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "2466:17:35",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "id": 4696,
+                      "name": "_delegate",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4683,
+                      "src": "2456:9:35",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_address_$returns$__$",
+                        "typeString": "function (address)"
+                      }
+                    },
+                    "id": 4699,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "2456:28:35",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 4700,
+                  "nodeType": "ExpressionStatement",
+                  "src": "2456:28:35"
+                }
+              ]
+            },
+            "documentation": {
+              "id": 4690,
+              "nodeType": "StructuredDocumentation",
+              "src": "2152:221:35",
+              "text": " @dev Delegates the current call to the address returned by `_implementation()`.\n This function does not return to its internal call site, it will return directly to the external caller."
+            },
+            "id": 4702,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "_fallback",
+            "nameLocation": "2388:9:35",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4691,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2397:2:35"
+            },
+            "returnParameters": {
+              "id": 4692,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2417:0:35"
+            },
+            "scope": 4724,
+            "src": "2379:113:35",
+            "stateMutability": "nonpayable",
+            "virtual": true,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 4709,
+              "nodeType": "Block",
+              "src": "2731:30:35",
+              "statements": [
+                {
+                  "expression": {
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "id": 4706,
+                      "name": "_fallback",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4702,
+                      "src": "2742:9:35",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$__$returns$__$",
+                        "typeString": "function ()"
+                      }
+                    },
+                    "id": 4707,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "2742:11:35",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 4708,
+                  "nodeType": "ExpressionStatement",
+                  "src": "2742:11:35"
+                }
+              ]
+            },
+            "documentation": {
+              "id": 4703,
+              "nodeType": "StructuredDocumentation",
+              "src": "2500:189:35",
+              "text": " @dev Fallback function that delegates calls to the address returned by `_implementation()`. Will run if no other\n function in the contract matches the call data."
+            },
+            "id": 4710,
+            "implemented": true,
+            "kind": "fallback",
+            "modifiers": [],
+            "name": "",
+            "nameLocation": "-1:-1:-1",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4704,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2703:2:35"
+            },
+            "returnParameters": {
+              "id": 4705,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2731:0:35"
+            },
+            "scope": 4724,
+            "src": "2695:66:35",
+            "stateMutability": "payable",
+            "virtual": true,
+            "visibility": "external"
+          },
+          {
+            "body": {
+              "id": 4717,
+              "nodeType": "Block",
+              "src": "2962:30:35",
+              "statements": [
+                {
+                  "expression": {
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "id": 4714,
+                      "name": "_fallback",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4702,
+                      "src": "2973:9:35",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$__$returns$__$",
+                        "typeString": "function ()"
+                      }
+                    },
+                    "id": 4715,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "2973:11:35",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 4716,
+                  "nodeType": "ExpressionStatement",
+                  "src": "2973:11:35"
+                }
+              ]
+            },
+            "documentation": {
+              "id": 4711,
+              "nodeType": "StructuredDocumentation",
+              "src": "2769:152:35",
+              "text": " @dev Fallback function that delegates calls to the address returned by `_implementation()`. Will run if call data\n is empty."
+            },
+            "id": 4718,
+            "implemented": true,
+            "kind": "receive",
+            "modifiers": [],
+            "name": "",
+            "nameLocation": "-1:-1:-1",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4712,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2934:2:35"
+            },
+            "returnParameters": {
+              "id": 4713,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2962:0:35"
+            },
+            "scope": 4724,
+            "src": "2927:65:35",
+            "stateMutability": "payable",
+            "virtual": true,
+            "visibility": "external"
+          },
+          {
+            "body": {
+              "id": 4722,
+              "nodeType": "Block",
+              "src": "3326:2:35",
+              "statements": []
+            },
+            "documentation": {
+              "id": 4719,
+              "nodeType": "StructuredDocumentation",
+              "src": "3000:276:35",
+              "text": " @dev Hook that is called before falling back to the implementation. Can happen as part of a manual `_fallback`\n call, or as part of the Solidity `fallback` or `receive` functions.\n If overridden should call `super._beforeFallback()`."
+            },
+            "id": 4723,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "_beforeFallback",
+            "nameLocation": "3291:15:35",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4720,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "3306:2:35"
+            },
+            "returnParameters": {
+              "id": 4721,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "3326:0:35"
+            },
+            "scope": 4724,
+            "src": "3282:46:35",
+            "stateMutability": "nonpayable",
+            "virtual": true,
+            "visibility": "internal"
+          }
+        ],
+        "scope": 4725,
+        "src": "738:2593:35",
+        "usedErrors": []
+      }
+    ],
+    "src": "102:3231:35"
+  },
+  "legacyAST": {
+    "absolutePath": "project:/contracts/proxy/Proxy.sol",
+    "exportedSymbols": {
+      "Proxy": [
+        4724
+      ]
+    },
+    "id": 4725,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 4674,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "102:23:35"
+      },
+      {
+        "abstract": true,
+        "baseContracts": [],
+        "canonicalName": "Proxy",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": {
+          "id": 4675,
+          "nodeType": "StructuredDocumentation",
+          "src": "129:607:35",
+          "text": " @dev This abstract contract provides a fallback function that delegates all calls to another contract using the EVM\n instruction `delegatecall`. We refer to the second contract as the _implementation_ behind the proxy, and it has to\n be specified by overriding the virtual {_implementation} function.\n Additionally, delegation to the implementation can be triggered manually through the {_fallback} function, or to a\n different contract through the {_delegate} function.\n The success and return data of the delegated call will be returned back to the caller of the proxy."
+        },
+        "fullyImplemented": false,
+        "id": 4724,
+        "linearizedBaseContracts": [
+          4724
+        ],
+        "name": "Proxy",
+        "nameLocation": "756:5:35",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 4682,
+              "nodeType": "Block",
+              "src": "1029:858:35",
+              "statements": [
+                {
+                  "AST": {
+                    "nodeType": "YulBlock",
+                    "src": "1049:831:35",
+                    "statements": [
+                      {
+                        "expression": {
+                          "arguments": [
+                            {
+                              "kind": "number",
+                              "nodeType": "YulLiteral",
+                              "src": "1306:1:35",
+                              "type": "",
+                              "value": "0"
+                            },
+                            {
+                              "kind": "number",
+                              "nodeType": "YulLiteral",
+                              "src": "1309:1:35",
+                              "type": "",
+                              "value": "0"
+                            },
+                            {
+                              "arguments": [],
+                              "functionName": {
+                                "name": "calldatasize",
+                                "nodeType": "YulIdentifier",
+                                "src": "1312:12:35"
+                              },
+                              "nodeType": "YulFunctionCall",
+                              "src": "1312:14:35"
+                            }
+                          ],
+                          "functionName": {
+                            "name": "calldatacopy",
+                            "nodeType": "YulIdentifier",
+                            "src": "1293:12:35"
+                          },
+                          "nodeType": "YulFunctionCall",
+                          "src": "1293:34:35"
+                        },
+                        "nodeType": "YulExpressionStatement",
+                        "src": "1293:34:35"
+                      },
+                      {
+                        "nodeType": "YulVariableDeclaration",
+                        "src": "1458:74:35",
+                        "value": {
+                          "arguments": [
+                            {
+                              "arguments": [],
+                              "functionName": {
+                                "name": "gas",
+                                "nodeType": "YulIdentifier",
+                                "src": "1485:3:35"
+                              },
+                              "nodeType": "YulFunctionCall",
+                              "src": "1485:5:35"
+                            },
+                            {
+                              "name": "implementation",
+                              "nodeType": "YulIdentifier",
+                              "src": "1492:14:35"
+                            },
+                            {
+                              "kind": "number",
+                              "nodeType": "YulLiteral",
+                              "src": "1508:1:35",
+                              "type": "",
+                              "value": "0"
+                            },
+                            {
+                              "arguments": [],
+                              "functionName": {
+                                "name": "calldatasize",
+                                "nodeType": "YulIdentifier",
+                                "src": "1511:12:35"
+                              },
+                              "nodeType": "YulFunctionCall",
+                              "src": "1511:14:35"
+                            },
+                            {
+                              "kind": "number",
+                              "nodeType": "YulLiteral",
+                              "src": "1527:1:35",
+                              "type": "",
+                              "value": "0"
+                            },
+                            {
+                              "kind": "number",
+                              "nodeType": "YulLiteral",
+                              "src": "1530:1:35",
+                              "type": "",
+                              "value": "0"
+                            }
+                          ],
+                          "functionName": {
+                            "name": "delegatecall",
+                            "nodeType": "YulIdentifier",
+                            "src": "1472:12:35"
+                          },
+                          "nodeType": "YulFunctionCall",
+                          "src": "1472:60:35"
+                        },
+                        "variables": [
+                          {
+                            "name": "result",
+                            "nodeType": "YulTypedName",
+                            "src": "1462:6:35",
+                            "type": ""
+                          }
+                        ]
+                      },
+                      {
+                        "expression": {
+                          "arguments": [
+                            {
+                              "kind": "number",
+                              "nodeType": "YulLiteral",
+                              "src": "1603:1:35",
+                              "type": "",
+                              "value": "0"
+                            },
+                            {
+                              "kind": "number",
+                              "nodeType": "YulLiteral",
+                              "src": "1606:1:35",
+                              "type": "",
+                              "value": "0"
+                            },
+                            {
+                              "arguments": [],
+                              "functionName": {
+                                "name": "returndatasize",
+                                "nodeType": "YulIdentifier",
+                                "src": "1609:14:35"
+                              },
+                              "nodeType": "YulFunctionCall",
+                              "src": "1609:16:35"
+                            }
+                          ],
+                          "functionName": {
+                            "name": "returndatacopy",
+                            "nodeType": "YulIdentifier",
+                            "src": "1588:14:35"
+                          },
+                          "nodeType": "YulFunctionCall",
+                          "src": "1588:38:35"
+                        },
+                        "nodeType": "YulExpressionStatement",
+                        "src": "1588:38:35"
+                      },
+                      {
+                        "cases": [
+                          {
+                            "body": {
+                              "nodeType": "YulBlock",
+                              "src": "1725:61:35",
+                              "statements": [
+                                {
+                                  "expression": {
+                                    "arguments": [
+                                      {
+                                        "kind": "number",
+                                        "nodeType": "YulLiteral",
+                                        "src": "1751:1:35",
+                                        "type": "",
+                                        "value": "0"
+                                      },
+                                      {
+                                        "arguments": [],
+                                        "functionName": {
+                                          "name": "returndatasize",
+                                          "nodeType": "YulIdentifier",
+                                          "src": "1754:14:35"
+                                        },
+                                        "nodeType": "YulFunctionCall",
+                                        "src": "1754:16:35"
+                                      }
+                                    ],
+                                    "functionName": {
+                                      "name": "revert",
+                                      "nodeType": "YulIdentifier",
+                                      "src": "1744:6:35"
+                                    },
+                                    "nodeType": "YulFunctionCall",
+                                    "src": "1744:27:35"
+                                  },
+                                  "nodeType": "YulExpressionStatement",
+                                  "src": "1744:27:35"
+                                }
+                              ]
+                            },
+                            "nodeType": "YulCase",
+                            "src": "1718:68:35",
+                            "value": {
+                              "kind": "number",
+                              "nodeType": "YulLiteral",
+                              "src": "1723:1:35",
+                              "type": "",
+                              "value": "0"
+                            }
+                          },
+                          {
+                            "body": {
+                              "nodeType": "YulBlock",
+                              "src": "1808:61:35",
+                              "statements": [
+                                {
+                                  "expression": {
+                                    "arguments": [
+                                      {
+                                        "kind": "number",
+                                        "nodeType": "YulLiteral",
+                                        "src": "1834:1:35",
+                                        "type": "",
+                                        "value": "0"
+                                      },
+                                      {
+                                        "arguments": [],
+                                        "functionName": {
+                                          "name": "returndatasize",
+                                          "nodeType": "YulIdentifier",
+                                          "src": "1837:14:35"
+                                        },
+                                        "nodeType": "YulFunctionCall",
+                                        "src": "1837:16:35"
+                                      }
+                                    ],
+                                    "functionName": {
+                                      "name": "return",
+                                      "nodeType": "YulIdentifier",
+                                      "src": "1827:6:35"
+                                    },
+                                    "nodeType": "YulFunctionCall",
+                                    "src": "1827:27:35"
+                                  },
+                                  "nodeType": "YulExpressionStatement",
+                                  "src": "1827:27:35"
+                                }
+                              ]
+                            },
+                            "nodeType": "YulCase",
+                            "src": "1800:69:35",
+                            "value": "default"
+                          }
+                        ],
+                        "expression": {
+                          "name": "result",
+                          "nodeType": "YulIdentifier",
+                          "src": "1649:6:35"
+                        },
+                        "nodeType": "YulSwitch",
+                        "src": "1642:227:35"
+                      }
+                    ]
+                  },
+                  "evmVersion": "london",
+                  "externalReferences": [
+                    {
+                      "declaration": 4678,
+                      "isOffset": false,
+                      "isSlot": false,
+                      "src": "1492:14:35",
+                      "valueSize": 1
+                    }
+                  ],
+                  "id": 4681,
+                  "nodeType": "InlineAssembly",
+                  "src": "1040:840:35"
+                }
+              ]
+            },
+            "documentation": {
+              "id": 4676,
+              "nodeType": "StructuredDocumentation",
+              "src": "769:194:35",
+              "text": " @dev Delegates the current call to `implementation`.\n This function does not return to its internal call site, it will return directly to the external caller."
+            },
+            "id": 4683,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "_delegate",
+            "nameLocation": "978:9:35",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4679,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4678,
+                  "mutability": "mutable",
+                  "name": "implementation",
+                  "nameLocation": "996:14:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4683,
+                  "src": "988:22:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4677,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "988:7:35",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "987:24:35"
+            },
+            "returnParameters": {
+              "id": 4680,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1029:0:35"
+            },
+            "scope": 4724,
+            "src": "969:918:35",
+            "stateMutability": "nonpayable",
+            "virtual": true,
+            "visibility": "internal"
+          },
+          {
+            "documentation": {
+              "id": 4684,
+              "nodeType": "StructuredDocumentation",
+              "src": "1895:176:35",
+              "text": " @dev This is a virtual function that should be overridden so it returns the address to which the fallback function\n and {_fallback} should delegate."
+            },
+            "id": 4689,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "_implementation",
+            "nameLocation": "2086:15:35",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4685,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2101:2:35"
+            },
+            "returnParameters": {
+              "id": 4688,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4687,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4689,
+                  "src": "2135:7:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4686,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2135:7:35",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2134:9:35"
+            },
+            "scope": 4724,
+            "src": "2077:67:35",
+            "stateMutability": "view",
+            "virtual": true,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 4701,
+              "nodeType": "Block",
+              "src": "2417:75:35",
+              "statements": [
+                {
+                  "expression": {
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "id": 4693,
+                      "name": "_beforeFallback",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4723,
+                      "src": "2428:15:35",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$__$returns$__$",
+                        "typeString": "function ()"
+                      }
+                    },
+                    "id": 4694,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "2428:17:35",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 4695,
+                  "nodeType": "ExpressionStatement",
+                  "src": "2428:17:35"
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "arguments": [],
+                        "expression": {
+                          "argumentTypes": [],
+                          "id": 4697,
+                          "name": "_implementation",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 4689,
+                          "src": "2466:15:35",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_function_internal_view$__$returns$_t_address_$",
+                            "typeString": "function () view returns (address)"
+                          }
+                        },
+                        "id": 4698,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "functionCall",
+                        "lValueRequested": false,
+                        "nameLocations": [],
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "2466:17:35",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "id": 4696,
+                      "name": "_delegate",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4683,
+                      "src": "2456:9:35",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_address_$returns$__$",
+                        "typeString": "function (address)"
+                      }
+                    },
+                    "id": 4699,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "2456:28:35",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 4700,
+                  "nodeType": "ExpressionStatement",
+                  "src": "2456:28:35"
+                }
+              ]
+            },
+            "documentation": {
+              "id": 4690,
+              "nodeType": "StructuredDocumentation",
+              "src": "2152:221:35",
+              "text": " @dev Delegates the current call to the address returned by `_implementation()`.\n This function does not return to its internal call site, it will return directly to the external caller."
+            },
+            "id": 4702,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "_fallback",
+            "nameLocation": "2388:9:35",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4691,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2397:2:35"
+            },
+            "returnParameters": {
+              "id": 4692,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2417:0:35"
+            },
+            "scope": 4724,
+            "src": "2379:113:35",
+            "stateMutability": "nonpayable",
+            "virtual": true,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 4709,
+              "nodeType": "Block",
+              "src": "2731:30:35",
+              "statements": [
+                {
+                  "expression": {
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "id": 4706,
+                      "name": "_fallback",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4702,
+                      "src": "2742:9:35",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$__$returns$__$",
+                        "typeString": "function ()"
+                      }
+                    },
+                    "id": 4707,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "2742:11:35",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 4708,
+                  "nodeType": "ExpressionStatement",
+                  "src": "2742:11:35"
+                }
+              ]
+            },
+            "documentation": {
+              "id": 4703,
+              "nodeType": "StructuredDocumentation",
+              "src": "2500:189:35",
+              "text": " @dev Fallback function that delegates calls to the address returned by `_implementation()`. Will run if no other\n function in the contract matches the call data."
+            },
+            "id": 4710,
+            "implemented": true,
+            "kind": "fallback",
+            "modifiers": [],
+            "name": "",
+            "nameLocation": "-1:-1:-1",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4704,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2703:2:35"
+            },
+            "returnParameters": {
+              "id": 4705,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2731:0:35"
+            },
+            "scope": 4724,
+            "src": "2695:66:35",
+            "stateMutability": "payable",
+            "virtual": true,
+            "visibility": "external"
+          },
+          {
+            "body": {
+              "id": 4717,
+              "nodeType": "Block",
+              "src": "2962:30:35",
+              "statements": [
+                {
+                  "expression": {
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "id": 4714,
+                      "name": "_fallback",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4702,
+                      "src": "2973:9:35",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$__$returns$__$",
+                        "typeString": "function ()"
+                      }
+                    },
+                    "id": 4715,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "2973:11:35",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 4716,
+                  "nodeType": "ExpressionStatement",
+                  "src": "2973:11:35"
+                }
+              ]
+            },
+            "documentation": {
+              "id": 4711,
+              "nodeType": "StructuredDocumentation",
+              "src": "2769:152:35",
+              "text": " @dev Fallback function that delegates calls to the address returned by `_implementation()`. Will run if call data\n is empty."
+            },
+            "id": 4718,
+            "implemented": true,
+            "kind": "receive",
+            "modifiers": [],
+            "name": "",
+            "nameLocation": "-1:-1:-1",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4712,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2934:2:35"
+            },
+            "returnParameters": {
+              "id": 4713,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2962:0:35"
+            },
+            "scope": 4724,
+            "src": "2927:65:35",
+            "stateMutability": "payable",
+            "virtual": true,
+            "visibility": "external"
+          },
+          {
+            "body": {
+              "id": 4722,
+              "nodeType": "Block",
+              "src": "3326:2:35",
+              "statements": []
+            },
+            "documentation": {
+              "id": 4719,
+              "nodeType": "StructuredDocumentation",
+              "src": "3000:276:35",
+              "text": " @dev Hook that is called before falling back to the implementation. Can happen as part of a manual `_fallback`\n call, or as part of the Solidity `fallback` or `receive` functions.\n If overridden should call `super._beforeFallback()`."
+            },
+            "id": 4723,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "_beforeFallback",
+            "nameLocation": "3291:15:35",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4720,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "3306:2:35"
+            },
+            "returnParameters": {
+              "id": 4721,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "3326:0:35"
+            },
+            "scope": 4724,
+            "src": "3282:46:35",
+            "stateMutability": "nonpayable",
+            "virtual": true,
+            "visibility": "internal"
+          }
+        ],
+        "scope": 4725,
+        "src": "738:2593:35",
+        "usedErrors": []
+      }
+    ],
+    "src": "102:3231:35"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.17+commit.8df45f5f.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.4",
+  "updatedAt": "2022-10-15T14:37:49.003Z",
+  "devdoc": {
+    "details": "This abstract contract provides a fallback function that delegates all calls to another contract using the EVM instruction `delegatecall`. We refer to the second contract as the _implementation_ behind the proxy, and it has to be specified by overriding the virtual {_implementation} function. Additionally, delegation to the implementation can be triggered manually through the {_fallback} function, or to a different contract through the {_delegate} function. The success and return data of the delegated call will be returned back to the caller of the proxy.",
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}
