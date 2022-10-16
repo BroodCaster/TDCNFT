@@ -1,0 +1,254 @@
+{
+	"compiler": {
+		"version": "0.8.7+commit.e28d00a7"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_logic",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_admin",
+						"type": "address"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "previousAdmin",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "newAdmin",
+						"type": "address"
+					}
+				],
+				"name": "AdminChanged",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "implementation",
+						"type": "address"
+					}
+				],
+				"name": "Upgraded",
+				"type": "event"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "fallback"
+			},
+			{
+				"inputs": [],
+				"name": "admin",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newAdmin",
+						"type": "address"
+					}
+				],
+				"name": "changeAdmin",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "implementation",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newImplementation",
+						"type": "address"
+					}
+				],
+				"name": "upgradeTo",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newImplementation",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes",
+						"name": "data",
+						"type": "bytes"
+					}
+				],
+				"name": "upgradeToAndCall",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
+			}
+		],
+		"devdoc": {
+			"details": "Extends from BaseAdminUpgradeabilityProxy with a constructor for  initializing the implementation, admin, and init data.",
+			"kind": "dev",
+			"methods": {
+				"admin()": {
+					"returns": {
+						"_0": "The address of the proxy admin."
+					}
+				},
+				"changeAdmin(address)": {
+					"details": "Changes the admin of the proxy. Only the current admin can call this function.",
+					"params": {
+						"newAdmin": "Address to transfer proxy administration to."
+					}
+				},
+				"constructor": {
+					"params": {
+						"_admin": "Address of the proxy administrator.",
+						"_logic": "address of the initial implementation."
+					}
+				},
+				"implementation()": {
+					"returns": {
+						"_0": "The address of the implementation."
+					}
+				},
+				"upgradeTo(address)": {
+					"details": "Upgrade the backing implementation of the proxy. Only the admin can call this function.",
+					"params": {
+						"newImplementation": "Address of the new implementation."
+					}
+				},
+				"upgradeToAndCall(address,bytes)": {
+					"details": "Upgrade the backing implementation of the proxy and call a function on the new implementation. This is useful to initialize the proxied contract.",
+					"params": {
+						"data": "Data to send as msg.data in the low level call. It should include the signature and the parameters of the function to be called, as described in https://solidity.readthedocs.io/en/v0.4.24/abi-spec.html#function-selector-and-argument-encoding.",
+						"newImplementation": "Address of the new implementation."
+					}
+				}
+			},
+			"title": "AdminUpgradeabilityProxy",
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"constructor": {
+					"notice": "Contract constructor."
+				}
+			},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/proxy/AdminUpgradeabilityProxy .sol": "AdminUpgradeabilityProxy"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"@openzeppelin/contracts/proxy/Proxy.sol": {
+			"keccak256": "0xc130fe33f1b2132158531a87734153293f6d07bc263ff4ac90e85da9c82c0e27",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://8831721b6f4cc26534d190f9f1631c3f59c9ff38efdd911f85e0882b8e360472",
+				"dweb:/ipfs/QmQZnLErZNStirSQ13ZNWQgvEYUtGE5tXYwn4QUPaVUfPN"
+			]
+		},
+		"contracts/lib/Address.sol": {
+			"keccak256": "0xc9a99055afb411d8515c130762d6f44f2c5bbadee93a425f0aa7325361cc3b24",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://b0b1ef76075be637e6ad18e60880775e2d11c3004a88827bbe62d4787091faed",
+				"dweb:/ipfs/QmbGwLuhEUr6WG9r1ANkiS3mUDj76MJ95TpzwkSrH5qTxz"
+			]
+		},
+		"contracts/proxy/AdminUpgradeabilityProxy .sol": {
+			"keccak256": "0x2da268c5d2150a5eb82a9c2470bda9704b3949286b81620383b87894cc0a4f8f",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ff9a43d4cd056a24cf636607f12543998df73c2f8230ff213937c2f09be696a4",
+				"dweb:/ipfs/QmbQXy96sVGGMCb917Lx9hRwnvmU8zHfJBvzQLvkBpsgSM"
+			]
+		},
+		"contracts/proxy/BaseAdminUpgradeabilityProxy.sol": {
+			"keccak256": "0xaeed7d8d1af063946410c781c0c1419fdd8ddd13edd2c5e6d54e36f3c24d6b60",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://3233c9bb16a8ac06648dbbc5a7cb8fc105a96b17438d83d0917986c5e3b468f3",
+				"dweb:/ipfs/QmWhBSAjqqszk3xF9vVnYYtmxZHPtJvYGK8BgawG8yiW7J"
+			]
+		},
+		"contracts/proxy/BaseUpgradeabilityProxy.sol": {
+			"keccak256": "0x8d8b1b0e989d10cc448cfa24b6ebdad7fc93fb945a5416ac23ff1a94f8b5691e",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://741b1b9cfe78d5d0e339840a66837ef19fdf1338cdc347bf93449bc2fd83eaef",
+				"dweb:/ipfs/QmRwsNXQwxGwem2G4b5EjtCmCZcv7KWDR8mfb7VnAQBRrs"
+			]
+		},
+		"contracts/proxy/UpgradeabilityProxy.sol": {
+			"keccak256": "0x1c36c069e355b16463e4ad05e254809efda978d44ba42081837a5ae9989dd368",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://9064055094adb85c13286214f300fd1d13ae549757eeb400580752ca692b8609",
+				"dweb:/ipfs/QmQLmDHjLaCEgjJkcajuuaZpoLYeJwYU6WAVYtMAswCMpB"
+			]
+		}
+	},
+	"version": 1
+}
